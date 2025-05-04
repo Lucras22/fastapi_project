@@ -1,14 +1,67 @@
 from http import HTTPStatus
 
-from fastapi.testclient import TestClient
 
-from fastapi_curso.app import app
+def test_profile(client):
+    response = client.post(
+        '/users/',
+        json={
+            'username': 'Lucras',
+            'usermail': 'Lucras@gmail.com',
+            'userpassword': 'secret',
+        },
+    )
+    assert response.status_code == HTTPStatus.CREATED
+    assert response.json() == {
+        'username': 'Lucras',
+        'usermail': 'Lucras@gmail.com',
+        'id': 1,
+    }
 
 
-def test_root_deve_retornar_ok_e_ola_mundo():
-    client = TestClient(app)
+def test_read_users(client):
+    response = client.get('/users/')
+    assert response.status_code == HTTPStatus.OK
+    assert response.json() == {
+        'users': [
+            {
+                'username': 'Lucras',
+                'usermail': 'Lucras@gmail.com',
+                'id': 1,
+            }
+        ]
+    }
 
-    response = client.get('/')
+
+def test_update_user(client):
+    response = client.put(
+        '/users/1',
+        json={
+            'username': 'Lucras22',
+            'usermail': 'Lucras22@example.com',
+            'userpassword': 'secret1',
+        },
+    )
+    assert response.status_code == HTTPStatus.OK
+    assert response.json() == {
+        'username': 'Lucras22',
+        'usermail': 'Lucras22@example.com',
+        'id': 1,
+    }
+
+
+def test_read_user_expe(client):
+    response = client.get('/users/1')
 
     assert response.status_code == HTTPStatus.OK
-    assert response.json() == {'message': 'Olár Mundo!!'}
+    assert response.json() == {
+        'id': 1,
+        'username': 'Lucras22',
+        'usermail': 'Lucras22@example.com',
+    }
+
+
+def test_delete_user(client):
+    response = client.delete('/users/1')
+
+    assert response.status_code == HTTPStatus.OK
+    assert response.json() == {'message': 'User Deleted'}
