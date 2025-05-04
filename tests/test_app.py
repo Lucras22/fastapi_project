@@ -5,15 +5,15 @@ def test_profile(client):
     response = client.post(
         '/users/',
         json={
-            'username': 'Lucras',
-            'usermail': 'Lucras@gmail.com',
+            'username': 'Paula',
+            'usermail': 'Paula@gmail.com',
             'userpassword': 'secret',
         },
     )
     assert response.status_code == HTTPStatus.CREATED
     assert response.json() == {
-        'username': 'Lucras',
-        'usermail': 'Lucras@gmail.com',
+        'username': 'Paula',
+        'usermail': 'Paula@gmail.com',
         'id': 1,
     }
 
@@ -24,8 +24,8 @@ def test_read_users(client):
     assert response.json() == {
         'users': [
             {
-                'username': 'Lucras',
-                'usermail': 'Lucras@gmail.com',
+                'username': 'Paula',
+                'usermail': 'Paula@gmail.com',
                 'id': 1,
             }
         ]
@@ -36,15 +36,15 @@ def test_update_user(client):
     response = client.put(
         '/users/1',
         json={
-            'username': 'Lucras22',
-            'usermail': 'Lucras22@example.com',
+            'username': 'Paula22',
+            'usermail': 'Paula22@example.com',
             'userpassword': 'secret1',
         },
     )
     assert response.status_code == HTTPStatus.OK
     assert response.json() == {
-        'username': 'Lucras22',
-        'usermail': 'Lucras22@example.com',
+        'username': 'Paula22',
+        'usermail': 'Paula22@example.com',
         'id': 1,
     }
 
@@ -55,8 +55,8 @@ def test_read_user_expe(client):
     assert response.status_code == HTTPStatus.OK
     assert response.json() == {
         'id': 1,
-        'username': 'Lucras22',
-        'usermail': 'Lucras22@example.com',
+        'username': 'Paula22',
+        'usermail': 'Paula22@example.com',
     }
 
 
